@@ -44,15 +44,21 @@ int Controller::MakeMove(char movetype, int x, int y)
 	catch (std::invalid_argument& ex)
 	{
 		view.DrawField(model.GetField(), ex.what());
-		return false;
+		return 1;
 	}
-
-	if (model.CheckForWin(movetype))
+	int win = model.CheckForWin(movetype);
+	if (win == 1)
 	{
-		std::string message = "'" + movetype;
+		std::string message = "'";
+		message += movetype;
 		message += "' won!";
 		view.DrawField(model.GetField(), message);
-		return true;
+		return 2;
+	}
+	if (win == 2)
+	{
+		view.DrawField(model.GetField(), "It's a draw!");
+		return 2;
 	}
 
 	if (movetype == 'X')
@@ -63,5 +69,5 @@ int Controller::MakeMove(char movetype, int x, int y)
 	{
 		view.DrawField(model.GetField(), "Now 'X' turn");
 	}
-	return false;
+	return 0;
 }

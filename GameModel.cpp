@@ -28,7 +28,7 @@ std::shared_ptr<Player> GameModel::CreatePlayer(char playertype)
     }
 }
 
-char GameModel::CheckForWin(char movetype)
+int GameModel::CheckForWin(char movetype)
 {
     int countdiagonal1 = 0;
     int countdiagonal2 = 0;
@@ -49,7 +49,7 @@ char GameModel::CheckForWin(char movetype)
         }
         if (countlanes == 3 || countrows == 3)
         {
-            return true;
+            return 1;
         }
 
         if (field[i][i] == movetype)
@@ -62,8 +62,25 @@ char GameModel::CheckForWin(char movetype)
         }
         if (countdiagonal1 == 3 || countdiagonal2 == 3)
         {
-            return true;
+            return 1;
         }
     }
-    return false;
+
+    bool fullfield = false;
+    for (int i = 0; i < 3; ++i)
+    {
+        for (int j = 0; j < 3; ++j)
+        {
+            if (field[i][j] == ' ')
+            {
+                fullfield = true;
+                break;
+            }
+        }
+    }
+    if (!fullfield)
+    {
+        return 2;
+    }
+    return 0;
 }

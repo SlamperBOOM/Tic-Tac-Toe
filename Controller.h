@@ -5,8 +5,6 @@
 #include <string>
 #include <exception>
 
-class Player;
-
 class Controller
 {
 public:

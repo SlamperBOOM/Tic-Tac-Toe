@@ -19,7 +19,7 @@ public:
 
 	std::shared_ptr<Player> CreatePlayer(char playertype); //p - person, b - bot
 
-	char CheckForWin(char movetype);
+	int CheckForWin(char movetype);
 
 	std::vector<std::vector<char>>& GetField()
 	{

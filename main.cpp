@@ -2,11 +2,11 @@
 #include "Controller.h"
 #include "Player.h"
 #include <memory>
-
-
+#include <windows.h>
 
 int main()
 {
+    srand(time(0));
     char move = 'X';
     Controller control;
     std::shared_ptr<Player> player1;
@@ -16,53 +16,81 @@ int main()
     while (true)
     {
         int x, y;
-        if (player1->MakeMove(control, 'X'))
+        Sleep(250);
+        while (true)
         {
-            while (true)
+            player1->GetCoords(x, y);
+            int status = control.MakeMove('X', x, y);
+            if (status == 0)
             {
-                std::cout << "Do you want to restart the game or choose players(R/C): ";
-                char choise;
-                std::cin >> choise;
-                if (choise == 'R')
-                {
-                    control.RestartGame();
-                    break;
-                }
-                else if (choise == 'C')
-                {
-                    control.StartGame(player1, player2);
-                    break;
-                }
-                else
-                {
-                    std::cout << "Wrong variant!" << std::endl << "Do you want to restart the game or choose players(R/C): ";
-                }
+                break;
             }
-            continue;
+            if (status == 1)
+            {
+                continue;
+            }
+            if (status == 2)
+            {
+                while (true)
+                {
+                    std::cout << std::endl << "Do you want to restart the game or choose players(R/C): ";
+                    char choise;
+                    std::cin >> choise;
+                    if (choise == 'R' || choise == 'r')
+                    {
+                        control.RestartGame();
+                        break;
+                    }
+                    else if (choise == 'C' || choise == 'c')
+                    {
+                        control.StartGame(player1, player2);
+                        break;
+                    }
+                    else
+                    {
+                        std::cout << "Wrong variant!" << std::endl << "Do you want to restart the game or choose players(R/C): ";
+                    }
+                }
+                continue;
+            }
         }
-        if (player2->MakeMove(control, 'O'))
+        Sleep(250);
+        while (true)
         {
-            while (true)
+            player2->GetCoords(x, y);
+            int status = control.MakeMove('O', x, y);
+            if (status == 0)
             {
-                std::cout << "Do you want to restart the game or choose players(R/C): ";
-                char choise;
-                std::cin >> choise;
-                if (choise == 'R')
-                {
-                    control.RestartGame();
-                    break;
-                }
-                else if (choise == 'C')
-                {
-                    control.StartGame(player1, player2);
-                    break;
-                }
-                else
-                {
-                    std::cout << "Wrong variant!" << std::endl << "Do you want to restart the game or choose players(R/C): ";
-                }
+                break;
             }
-            continue;
+            if (status == 1)
+            {
+                continue;
+            }
+            if (status == 2)
+            {
+                while (true)
+                {
+                    std::cout << std::endl << "Do you want to restart the game or choose players(R/C): ";
+                    char choise;
+                    std::cin >> choise;
+                    if (choise == 'R' || choise == 'r')
+                    {
+                        control.RestartGame();
+                        break;
+                    }
+                    else if (choise == 'C' || choise == 'c')
+                    {
+                        control.StartGame(player1, player2);
+                        break;
+                    }
+                    else
+                    {
+                        std::cout << "Wrong variant!" << std::endl << "Do you want to restart the game or choose players(R/C): ";
+                    }
+                }
+                continue;
+            }
         }
     }
 }
