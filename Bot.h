@@ -6,10 +6,11 @@ class Bot: public Player
 public:
 	virtual ~Bot() {}
 
-	void GetCoords(int& x, int& y)
+	bool GetCoords(int& x, int& y)
 	{
 		x = rand() % 3;
 		y = rand() % 3;
+		return true;
 	}
 };
 

@@ -12,7 +12,12 @@ public:
 
 	void RestartGame();
 
-	int MakeMove(char movetype, int x, int y); //0 - ход успешен, 1 - ячейка занята, 2 - победа
+	int MakeMove(char movetype, int& x, int& y); //0 - turn success, 1 - already chosen, 2 - win
+
+	void ShowChoice(int& x, int& y)
+	{
+		view.ShowChoice(x, y);
+	}
 
 private:
 	GameModel model;

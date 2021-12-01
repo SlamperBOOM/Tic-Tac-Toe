@@ -34,7 +34,7 @@ public:
 	}
 
 private:
-	std::vector<std::vector<char>> field; // ' ' - пусто, 'X' - крестик, 'O' - нолик
+	std::vector<std::vector<char>> field; // ' ' - plain, 'X' - x, 'O' - o
 
 };
 

@@ -1,14 +1,32 @@
 #include "Controller.h"
+#include <conio.h>
 
 void Controller::StartGame(std::shared_ptr<Player>& player1, std::shared_ptr<Player>& player2)
 {
-	int choise;
+	int choise = 1;
 	view.CleanScreen();
-	view.ShowStartMessage();
-	std::cin >> choise;
+	view.ShowStartMessage(choise);
 	//"1. Player vs. Player"
 	//"2. Player vs. Bot"
 	//"3. Bot vs. Bot"
+	while (true)
+	{
+		int key = _getch();
+		if (key == 80) //down
+		{
+			if (choise < 3) choise++;
+		}
+		if (key == 72) //up
+		{
+			if (choise > 1) choise--;
+		}
+		if (key == 13) //enter
+		{
+			break;
+		}
+		view.CleanScreen();
+		view.ShowStartMessage(choise);
+	}
 	if (choise == 1)
 	{
 		player1 = model.CreatePlayer('p');
@@ -26,24 +44,24 @@ void Controller::StartGame(std::shared_ptr<Player>& player1, std::shared_ptr<Pla
 	}
 	view.CleanScreen();
 	model.ClearField();
-	view.DrawField(model.GetField(), "Now 'X' turn");
+	view.DrawField(model.GetField(), "Now 'X' turn", 1, 1);
 }
 
 void Controller::RestartGame()
 {
 	model.ClearField();
 	view.CleanScreen();
-	view.DrawField(model.GetField(), "Now 'X' turn");
+	view.DrawField(model.GetField(), "Now 'X' turn", 1, 1);
 }
 
-int Controller::MakeMove(char movetype, int x, int y)
+int Controller::MakeMove(char movetype, int& x, int& y)
 {
 	try {
 		model.MakeMove(movetype, x, y);
 	}
 	catch (std::invalid_argument& ex)
 	{
-		view.DrawField(model.GetField(), ex.what());
+		view.DrawField(model.GetField(), ex.what(), x, y);
 		return 1;
 	}
 	int win = model.CheckForWin(movetype);
@@ -52,22 +70,22 @@ int Controller::MakeMove(char movetype, int x, int y)
 		std::string message = "'";
 		message += movetype;
 		message += "' won!";
-		view.DrawField(model.GetField(), message);
+		view.DrawField(model.GetField(), message, x, y);
 		return 2;
 	}
 	if (win == 2)
 	{
-		view.DrawField(model.GetField(), "It's a draw!");
+		view.DrawField(model.GetField(), "It's a draw!", x ,y);
 		return 2;
 	}
 
 	if (movetype == 'X')
 	{
-		view.DrawField(model.GetField(), "Now 'O' turn");
+		view.DrawField(model.GetField(), "Now 'O' turn", x, y);
 	}
 	else
 	{
-		view.DrawField(model.GetField(), "Now 'X' turn");
+		view.DrawField(model.GetField(), "Now 'X' turn", x, y);
 	}
 	return 0;
 }

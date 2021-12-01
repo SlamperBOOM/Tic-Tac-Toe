@@ -11,18 +11,18 @@ public:
 	{
 		pattern.resize(5);
 		ClearField();
+		startmessage.resize(4);
+		startmessage[0] = "Who will play:";
+		startmessage[1] = "Player vs. Player";
+		startmessage[2] = "Player vs. Bot";
+		startmessage[3] = "Bot vs. Bot";
 	}
 
-	void DrawField(const std::vector<std::vector<char>>& field, std::string message);
+	void DrawField(const std::vector<std::vector<char>>& field, std::string message, const int& x, const int& y);//x and y for mark 
 
-	void ShowStartMessage()
-	{
-		std::cout << "Who will play:" << std::endl <<
-			"1. Player vs. Player" << std::endl <<
-			"2. Player vs. Bot" << std::endl <<
-			"3. Bot vs. Bot" << std::endl << std::endl <<
-			"Choise: ";
-	}
+	void ShowStartMessage(int choise);
+
+	void ShowChoice(const int& x, const int& y);
 
 	void CleanScreen()
 	{
@@ -40,5 +40,6 @@ public:
 
 private:
 	std::vector<std::string> pattern;
+	std::vector<std::string> startmessage;
 };
 
