@@ -4,31 +4,42 @@
 #include <iostream>
 #include <exception>
 
-void GameModel::MakeMove(char movetype, int x, int y)
+
+int GameModel::MakeMove(int& x, int& y)
 {
     if (field[x][y] != ' ')
     {
-        throw std::invalid_argument("Wrong coordinates, choose another");
+        Notify(1, x, y);
+        return 1;
     }
     else
     {
-        field[x][y] = movetype;
+        field[x][y] = turn;
+        int win = CheckForWin();
+        if (win == 2)
+        {
+            Notify(3, x, y);
+            return 1;
+        }
+        if (win == 1)
+        {
+            Notify(2, x, y);
+            return 2;
+        }
+        if (turn == 'X')
+        {
+            turn = 'O';
+        }
+        else
+        {
+            turn = 'X';
+        }
+        Notify(0, x, y);
+        return 0;
     }
 }
 
-std::shared_ptr<Player> GameModel::CreatePlayer(char playertype)
-{
-    if (playertype == 'p')
-    {
-        return std::shared_ptr<Player>(new Person());
-    }
-    else
-    {
-        return std::shared_ptr<Player>(new Bot());
-    }
-}
-
-int GameModel::CheckForWin(char movetype)
+int GameModel::CheckForWin()
 {
     int countdiagonal1 = 0;
     int countdiagonal2 = 0;
@@ -38,11 +49,11 @@ int GameModel::CheckForWin(char movetype)
         int countrows = 0;
         for (int j = 0; j < 3; ++j)
         {
-            if (field[i][j] == movetype)
+            if (field[i][j] == turn)
             {
                 ++countlanes;
             }
-            if (field[j][i] == movetype)
+            if (field[j][i] == turn)
             {
                 ++countrows;
             }
@@ -52,11 +63,11 @@ int GameModel::CheckForWin(char movetype)
             return 1;
         }
 
-        if (field[i][i] == movetype)
+        if (field[i][i] == turn)
         {
             ++countdiagonal1;
         }
-        if (field[i][2 - i] == movetype)
+        if (field[i][2 - i] == turn)
         {
             ++countdiagonal2;
         }
@@ -83,4 +94,9 @@ int GameModel::CheckForWin(char movetype)
         return 2;
     }
     return 0;
+}
+
+void GameModel::Notify(const int& status, const int& x, const int& y)
+{
+    view.RefreshField(status, x, y, *this);
 }

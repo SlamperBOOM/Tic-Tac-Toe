@@ -8,19 +8,25 @@
 class Controller
 {
 public:
-	void StartGame(std::shared_ptr<Player>& player1, std::shared_ptr<Player>& player2);
+
+	int StartGame();
 
 	void RestartGame();
 
-	int MakeMove(char movetype, int& x, int& y); //0 - turn success, 1 - already chosen, 2 - win
+	int MakeMove(int& x, int& y); //0 - turn success, 1 - already chosen, 2 - win
 
 	void ShowChoice(int& x, int& y)
 	{
 		view.ShowChoice(x, y);
 	}
 
+	char GetTurnType()
+	{
+		return model.GetTurnType();
+	}
+
 private:
-	GameModel model;
 	ViewMaker view;
+	GameModel model{view};
 };
 

@@ -2,11 +2,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "GameModel.h"
+
+class GameModel;
 
 class ViewMaker
 {
 public:
-
 	ViewMaker()
 	{
 		pattern.resize(5);
@@ -18,7 +20,7 @@ public:
 		startmessage[3] = "Bot vs. Bot";
 	}
 
-	void DrawField(const std::vector<std::vector<char>>& field, std::string message, const int& x, const int& y);//x and y for mark 
+	void RefreshField(const int& status, const int& x, const int& y, const GameModel& model);
 
 	void ShowStartMessage(int choise);
 
@@ -41,5 +43,10 @@ public:
 private:
 	std::vector<std::string> pattern;
 	std::vector<std::string> startmessage;
+
+	void DrawField(const int& status, const int& x, const int& y, const GameModel& model);//x and y for mark 
+
+	std::string MakeMessage(const int& status, const GameModel& model);
+	
 };
 
